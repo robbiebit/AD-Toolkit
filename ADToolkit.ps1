@@ -47,25 +47,25 @@ do
         Write-Host "To transfer FSMO roles you need to supply the destination DC hostname (i.e. homelabdc, homelabdc2)" -ForegroundColor Red
         Move-ADDirectoryServerOperationMasterRole -OperationMasterRole DomainNamingMaster,PDCEmulator,RIDMaster,SchemaMaster,InfrastructureMaster
     } '3' {
-        Write-Host  'Checking for Global Catalog Servers...' -ForegroundColor Green
-      Get-ADForest  | FL GlobalCatalogs
+        Write-Host  "Checking for Global Catalog Servers..." -ForegroundColor Green
+      Get-ADForest  | Format-List GlobalCatalogs
     } '4' {
-        Write-Host 'Disable the Global Catalog function from Domain Controller' -ForegroundColor Green
+        Write-Host "Disable the Global Catalog function from Domain Controller" -ForegroundColor Green
         $DomainController = Read-Host "Enter the name of the domain controller to disable Global Catalog"
         repadmin.exe /options $DomainController –IS_GC
     } '5' {
-        Write-Host 'Checking for Active Directory Domain and Forest Functional Level...' -ForegroundColor Green
-        Get-ADDomain | fl Name, DomainMode
-        Get-ADForest | fl Name, ForestMode
+        Write-Host "Checking for Active Directory Domain and Forest Functional Level..." -ForegroundColor Green
+        Get-ADDomain | Format-List Name, DomainMode
+        Get-ADForest | Format-List Name, ForestMode
     } '6' {
-        Write-Host 'Raising AD Domain and Forest to Server 2016 Functional Level...' -ForegroundColor Red
+        Write-Host "Raising AD Domain and Forest to Server 2016 Functional Level..." -ForegroundColor Red
         Set-ADDomainMode -DomainMode 7
         Set-ADForestMode -ForestMode 7
     } '7' {
-        Write-Host 'Running DCDIAG...' -ForegroundColor Green
+        Write-Host "Running DCDIAG..." -ForegroundColor Green
         dcdiag /v
     } '8' {
-        Write-Host 'Checking AD Replication...' -ForegroundColor Green
+        Write-Host "Checking AD Replication..." -ForegroundColor Green
          repadmin /replsummary
     }
     }
