@@ -40,15 +40,15 @@ do
     {
     '1' {
         Write-Host "Checking which domain controller is holding FSMO roles..." -ForegroundColor Green
-    Get-ADDomainController -Filter *| ForEach-Object {
-        "`nDomain Controller: "    + $_.Name
+        Get-ADDomainController -Filter *| ForEach-Object {
+        "Domain Controller: "    + $_.Name
         "FSMO Roles Owned: "   + $_.OperationMasterRoles}
     } '2' {
         Write-Host "To transfer FSMO roles you need to supply the destination DC hostname (i.e. homelabdc, homelabdc2)" -ForegroundColor Red
         Move-ADDirectoryServerOperationMasterRole -OperationMasterRole DomainNamingMaster,PDCEmulator,RIDMaster,SchemaMaster,InfrastructureMaster
     } '3' {
         Write-Host  "Checking for Global Catalog Servers..." -ForegroundColor Green
-      Get-ADForest  | Format-List GlobalCatalogs
+        Get-ADForest  | Format-List GlobalCatalogs
     } '4' {
         Write-Host "Disable the Global Catalog function from Domain Controller" -ForegroundColor Green
         $DomainController = Read-Host "Enter the name of the domain controller to disable Global Catalog"
