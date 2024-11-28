@@ -52,8 +52,8 @@ do
     } '4' {
         Write-Host "Disable the Global Catalog function from Domain Controller" -ForegroundColor Green
         $DomainController = Read-Host "Enter the name of the domain controller to disable Global Catalog"
-        $Command = "/options $DomainController –IS_GC"
-        Invoke-Command -ComputerName $DomainController -ScriptBlock { param($Command) repadmin.exe $Command } -ArgumentList $Command
+        $CommandOptions = "/options $DomainController –IS_GC"
+        Invoke-Command -ComputerName $DomainController -ScriptBlock {repadmin.exe $CommandOptions}
     } '5' {
         Write-Host "Checking for Active Directory Domain and Forest Functional Level..." -ForegroundColor Green
         Get-ADDomain | Format-List Name, DomainMode
